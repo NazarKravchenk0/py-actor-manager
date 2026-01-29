@@ -1,5 +1,5 @@
 import sqlite3
-from typing import List, Optional
+from typing import List
 
 from models import Actor
 
@@ -20,7 +20,11 @@ class ActorManager:
         self._conn.commit()
 
         actor_id = cur.lastrowid
-        return Actor(id=int(actor_id), first_name=first_name, last_name=last_name)
+        return Actor(
+            id=int(actor_id),
+            first_name=first_name,
+            last_name=last_name,
+        )
 
     def all(self) -> List[Actor]:
         query = f"SELECT id, first_name, last_name FROM {self._table_name}"
@@ -40,8 +44,12 @@ class ActorManager:
             for row in rows
         ]
 
-    def update(self, pk: int, new_first_name: str,
-               new_last_name: str) -> None:
+    def update(
+        self,
+        pk: int,
+        new_first_name: str,
+        new_last_name: str,
+    ) -> None:
         query = (
             f"UPDATE {self._table_name} "
             "SET first_name = ?, last_name = ? "
